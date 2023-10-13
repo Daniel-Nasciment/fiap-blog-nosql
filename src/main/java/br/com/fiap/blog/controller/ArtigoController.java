@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -28,6 +29,11 @@ public class ArtigoController {
     @PostMapping
     public ResponseEntity<Artigo> criarArtigo (@RequestBody Artigo artigo){
         return ResponseEntity.ok(artigoService.criarArtigo(artigo));
+    }
+
+    @GetMapping(value = "/data/{data}")
+    public ResponseEntity<List<Artigo>> obterArtigoPorData (@PathVariable("data") LocalDateTime data ){
+        return ResponseEntity.ok(artigoService.buscarPorData(data));
     }
 
 }

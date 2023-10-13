@@ -2,6 +2,7 @@ package br.com.fiap.blog.service;
 
 import br.com.fiap.blog.model.Artigo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ArtigoService {
@@ -11,5 +12,7 @@ public interface ArtigoService {
     public Artigo obterPorCodigo(String codigo);
 
     public Artigo criarArtigo(Artigo artigo);
+
+    public List<Artigo> buscarPorData(LocalDateTime data);
 
 }
