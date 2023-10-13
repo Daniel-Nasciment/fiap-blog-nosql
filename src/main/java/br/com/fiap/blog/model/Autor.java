@@ -22,7 +22,4 @@ public class Autor {
 
     private String email;
 
-    @DBRef
-    private Autor autor;
-
 }
