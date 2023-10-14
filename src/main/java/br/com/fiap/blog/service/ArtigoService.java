@@ -18,4 +18,6 @@ public interface ArtigoService {
     List<Artigo> buscarPorDataEStatus(LocalDateTime data, int status);
 
     void atualizarArtigo(Artigo artigo);
+
+    void atualizarUrl(String codigo, String novaUrl);
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -68,5 +69,13 @@ public class ArtigoServiceImpl implements ArtigoService {
         this.repository.findById(artigo.getCodigo()).orElseThrow(() -> new IllegalArgumentException("Artigo não existe!"));
 
         this.repository.save(artigo);
+    }
+
+    @Override
+    public void atualizarUrl(String codigo, String novaUrl) {
+        Query query = new Query(Criteria.where("_id").is(codigo));
+        Update update = new Update().set("url", novaUrl);
+
+        mongoTemplate.updateFirst(query, update, Artigo.class);
     }
 }

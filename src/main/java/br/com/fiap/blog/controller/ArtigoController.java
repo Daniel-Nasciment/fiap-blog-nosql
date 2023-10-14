@@ -46,4 +46,9 @@ public class ArtigoController {
         artigoService.atualizarArtigo(artigo);
     }
 
+    @PutMapping(value = "/url/{codigo}")
+    public void atualizarUrl(@PathVariable String codigo, @RequestBody String novaUrl){
+        artigoService.atualizarUrl(codigo, novaUrl);
+    }
+
 }
