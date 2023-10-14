@@ -32,8 +32,13 @@ public class ArtigoController {
     }
 
     @GetMapping(value = "/data/{data}")
-    public ResponseEntity<List<Artigo>> obterArtigoPorData (@PathVariable("data") LocalDateTime data ){
+    public ResponseEntity<List<Artigo>> obterArtigoPorData(@PathVariable("data") LocalDateTime data ){
         return ResponseEntity.ok(artigoService.buscarPorData(data));
+    }
+
+    @GetMapping(value = "/dataEStatus/{data}/{status}")
+    public ResponseEntity<List<Artigo>> obterArtigoPorDataEStatus(@PathVariable("data") LocalDateTime data, @PathVariable("status") int status){
+        return ResponseEntity.ok(artigoService.buscarPorDataEStatus(data, status));
     }
 
 }

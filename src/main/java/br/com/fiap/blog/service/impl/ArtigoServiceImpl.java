@@ -54,4 +54,11 @@ public class ArtigoServiceImpl implements ArtigoService {
 
         return this.mongoTemplate.find(query, Artigo.class);
     }
+
+    @Override
+    public List<Artigo> buscarPorDataEStatus(LocalDateTime data, int status) {
+        Query query = new Query(Criteria.where("data").gt(data).and("status").is(status));
+
+        return this.mongoTemplate.find(query, Artigo.class);
+    }
 }

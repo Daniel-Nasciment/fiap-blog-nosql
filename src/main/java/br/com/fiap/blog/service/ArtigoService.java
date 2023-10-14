@@ -15,4 +15,5 @@ public interface ArtigoService {
 
     public List<Artigo> buscarPorData(LocalDateTime data);
 
+    List<Artigo> buscarPorDataEStatus(LocalDateTime data, int status);
 }
