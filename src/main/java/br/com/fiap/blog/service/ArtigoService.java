@@ -20,4 +20,6 @@ public interface ArtigoService {
     void atualizarArtigo(Artigo artigo);
 
     void atualizarUrl(String codigo, String novaUrl);
+
+    public List<Artigo> findByTexto(String texto);
 }

@@ -51,4 +51,9 @@ public class ArtigoController {
         artigoService.atualizarUrl(codigo, novaUrl);
     }
 
+    @GetMapping(value = "/buscaPorTexto")
+    public ResponseEntity<List<Artigo>> obterPorTexto(@RequestParam String texto){
+        return ResponseEntity.ok(artigoService.findByTexto(texto));
+    }
+
 }

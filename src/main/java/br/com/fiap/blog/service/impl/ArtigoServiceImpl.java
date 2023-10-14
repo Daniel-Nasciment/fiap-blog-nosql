@@ -6,9 +6,7 @@ import br.com.fiap.blog.repository.AutorRepository;
 import br.com.fiap.blog.service.ArtigoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.data.mongodb.core.query.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -77,5 +75,18 @@ public class ArtigoServiceImpl implements ArtigoService {
         Update update = new Update().set("url", novaUrl);
 
         mongoTemplate.updateFirst(query, update, Artigo.class);
+    }
+
+    @Override
+    public List<Artigo> findByTexto(String texto) {
+
+        // precisa ser executado o comando no mongodb: db.artigo.createIndex({texto: "text"})
+
+        TextCriteria criteria = TextCriteria.forDefaultLanguage().matchingPhrase(texto);
+
+        Query query = TextQuery.queryText(criteria).sortByScore();
+
+        return mongoTemplate.find(query, Artigo.class);
+
     }
 }
