@@ -1,6 +1,7 @@
 package br.com.fiap.blog.controller;
 
 import br.com.fiap.blog.model.Artigo;
+import br.com.fiap.blog.model.ArtigoStatusCount;
 import br.com.fiap.blog.service.ArtigoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -54,6 +55,11 @@ public class ArtigoController {
     @GetMapping(value = "/buscaPorTexto")
     public ResponseEntity<List<Artigo>> obterPorTexto(@RequestParam String texto){
         return ResponseEntity.ok(artigoService.findByTexto(texto));
+    }
+
+    @GetMapping(value = "/relatorio")
+    public ResponseEntity<List<ArtigoStatusCount>> executarRelatorio(){
+        return ResponseEntity.ok(artigoService.executarRelatorioQuantidadePorStatus());
     }
 
 }

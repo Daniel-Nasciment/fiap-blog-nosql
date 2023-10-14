@@ -1,11 +1,15 @@
 package br.com.fiap.blog.service.impl;
 
 import br.com.fiap.blog.model.Artigo;
+import br.com.fiap.blog.model.ArtigoStatusCount;
 import br.com.fiap.blog.repository.ArtigoRepository;
 import br.com.fiap.blog.repository.AutorRepository;
 import br.com.fiap.blog.service.ArtigoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.data.mongodb.core.query.*;
 import org.springframework.stereotype.Service;
 
@@ -88,5 +92,20 @@ public class ArtigoServiceImpl implements ArtigoService {
 
         return mongoTemplate.find(query, Artigo.class);
 
+    }
+
+    @Override
+    public List<ArtigoStatusCount> executarRelatorioQuantidadePorStatus() {
+
+        TypedAggregation<Artigo> aggregation = Aggregation.newAggregation(
+                Artigo.class,
+                Aggregation.group("status").count().as("quantidade"),
+                Aggregation.project("quantidade").and("status")
+                        .previousOperation()
+        );
+
+        AggregationResults<ArtigoStatusCount> results = mongoTemplate.aggregate(aggregation, ArtigoStatusCount.class);
+
+        return results.getMappedResults();
     }
 }

@@ -1,6 +1,7 @@
 package br.com.fiap.blog.service;
 
 import br.com.fiap.blog.model.Artigo;
+import br.com.fiap.blog.model.ArtigoStatusCount;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,4 +23,6 @@ public interface ArtigoService {
     void atualizarUrl(String codigo, String novaUrl);
 
     public List<Artigo> findByTexto(String texto);
+
+    public List<ArtigoStatusCount> executarRelatorioQuantidadePorStatus();
 }
