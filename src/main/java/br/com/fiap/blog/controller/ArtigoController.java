@@ -41,4 +41,9 @@ public class ArtigoController {
         return ResponseEntity.ok(artigoService.buscarPorDataEStatus(data, status));
     }
 
+    @PutMapping
+    public void atualizarArtigo(@RequestBody Artigo artigo){
+        artigoService.atualizarArtigo(artigo);
+    }
+
 }

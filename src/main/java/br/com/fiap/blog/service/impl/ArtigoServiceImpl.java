@@ -61,4 +61,12 @@ public class ArtigoServiceImpl implements ArtigoService {
 
         return this.mongoTemplate.find(query, Artigo.class);
     }
+
+    @Override
+    public void atualizarArtigo(Artigo artigo) {
+
+        this.repository.findById(artigo.getCodigo()).orElseThrow(() -> new IllegalArgumentException("Artigo não existe!"));
+
+        this.repository.save(artigo);
+    }
 }
