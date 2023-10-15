@@ -6,6 +6,7 @@ import br.com.fiap.blog.repository.ArtigoRepository;
 import br.com.fiap.blog.repository.AutorRepository;
 import br.com.fiap.blog.service.ArtigoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -74,7 +75,22 @@ public class ArtigoServiceImpl implements ArtigoService {
 
         this.repository.findById(artigo.getCodigo()).orElseThrow(() -> new IllegalArgumentException("Artigo não existe!"));
 
-        this.repository.save(artigo);
+        try {
+            this.repository.save(artigo);
+        }catch (OptimisticLockingFailureException ex) {
+            trySaveAgain(artigo);
+        }
+    }
+
+    private void trySaveAgain(Artigo artigoUpdated) {
+        // Para resolver o problema da concorrencia programaticamente
+        // nao tem a necessidade de incrementar o valor do atributor version,
+        // a propria biblioteca do spring data faz isso quando tratamos a exceção OptimisticLockingFailureException.
+        Artigo artigoOld = this.repository.findById(artigoUpdated.getCodigo()).orElseThrow(() -> new IllegalArgumentException("Artigo não existe!"));
+        artigoOld.update(artigoUpdated);
+
+        this.repository.save(artigoOld);
+
     }
 
     @Transactional

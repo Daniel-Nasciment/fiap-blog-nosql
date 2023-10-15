@@ -41,4 +41,11 @@ public class Artigo {
     @Version
     private Long version;
 
+    public void update(Artigo artigoUpdated) {
+        this.titulo = artigoUpdated.getTitulo();
+        this.data = artigoUpdated.getData();
+        this.texto = artigoUpdated.getTexto();
+        this.url = artigoUpdated.getUrl();
+        this.status = artigoUpdated.getStatus();
+    }
 }
