@@ -4,6 +4,8 @@ import br.com.fiap.blog.model.Artigo;
 import br.com.fiap.blog.model.ArtigoStatusCount;
 import br.com.fiap.blog.service.ArtigoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +15,11 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/artigo")
 public class ArtigoController {
+
+    @ExceptionHandler(OptimisticLockingFailureException.class)
+    public ResponseEntity<String> handleOptimisticLockingFailureException(OptimisticLockingFailureException ex){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Erro de concorrencia");
+    }
 
     @Autowired
     private ArtigoService artigoService;
