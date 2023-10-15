@@ -12,6 +12,7 @@ import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.TypedAggregation;
 import org.springframework.data.mongodb.core.query.*;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,11 +36,13 @@ public class ArtigoServiceImpl implements ArtigoService {
         return this.repository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Artigo obterPorCodigo(String codigo) {
         return this.repository.findById(codigo).orElseThrow(() -> new IllegalArgumentException("Artigo não existe!"));
     }
 
+    @Transactional
     @Override
     public Artigo criarArtigo(Artigo artigo) {
 
@@ -65,6 +68,7 @@ public class ArtigoServiceImpl implements ArtigoService {
         return this.mongoTemplate.find(query, Artigo.class);
     }
 
+    @Transactional
     @Override
     public void atualizarArtigo(Artigo artigo) {
 
@@ -73,6 +77,7 @@ public class ArtigoServiceImpl implements ArtigoService {
         this.repository.save(artigo);
     }
 
+    @Transactional
     @Override
     public void atualizarUrl(String codigo, String novaUrl) {
         Query query = new Query(Criteria.where("_id").is(codigo));
